@@ -1,0 +1,12 @@
+{
+  "title": [
+    1,
+    2,
+    3
+  ],
+  "button1": "true",
+  "button2": "gold",
+  "button3": "silver",
+  "number": 123,
+  "string": "Hello World"
+}

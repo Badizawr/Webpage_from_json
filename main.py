@@ -1,31 +1,18 @@
 import json
 from jinja2 import Environment, FileSystemLoader
-import sqlite3
 
+with open('data.json') as f:
+    json_data = json.load(f)
 
-# поключение к БД и выполнение запроса
-conn = sqlite3.connect('database.db')
-cursor = conn.cursor()
-cursor.execute('SELECT id, name')
-results = cursor.fetchall()
+def write_data(data):
+    fileName = "new_form.html"
+    with open(f"./templates/{fileName}", 'w') as f:
+        f.write(data)
+        
+def create_html(data):
+    env = Environment(loader=FileSystemLoader('templates'))
+    temp = env.get_template("mytemplate.html")
+    mesege = temp.render(data)
+    return write_data(mesege)
 
-# преобразование запроса в json
-data = []
-for row in results:
-    data.append({
-        'id': row[0],
-        'title': row[1],
-        'name': row[2]
-    })
-json_data = json.dumps(data)
-
-
-fileLoader = FileSystemLoader("templates")
-env = Environment(loader=fileLoader)
-
-rendered = env.get_temlate("form.html").render(form=data)
-
-fileName = "form.html"
-with open(f"./new_form{fileName}", 'w') as f:
-    f.write(rendered)
-
+create_html(json_data)
